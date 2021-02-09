@@ -8,3 +8,14 @@ C:\Users\LocalAdmin\Documents\GitHub\stchan-sandbox\PipelinedMeasurements\obj\De
 C:\Users\LocalAdmin\Documents\GitHub\stchan-sandbox\PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.csproj.CopyComplete
 C:\Users\LocalAdmin\Documents\GitHub\stchan-sandbox\PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemCompositeSingleCarrier.2010.exe
 C:\Users\LocalAdmin\Documents\GitHub\stchan-sandbox\PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemCompositeSingleCarrier.2010.pdb
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.csprojAssemblyReference.cache
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.csproj.CoreCompileInputs.cache
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.exe
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.pdb
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\NationalInstruments.RFmx.InstrMX.Fx40.dll
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\NationalInstruments.RFmx.NRMX.Fx40.dll
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\NationalInstruments.RFmx.InstrMX.Fx40.xml
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\bin.2010\Debug\NationalInstruments.RFmx.NRMX.Fx40.xml
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.csproj.CopyComplete
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.exe
+C:\Users\LocalAdmin\Documents\stchan\RFmxNR_PipelinedMeasurements\obj\Debug\RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010.pdb

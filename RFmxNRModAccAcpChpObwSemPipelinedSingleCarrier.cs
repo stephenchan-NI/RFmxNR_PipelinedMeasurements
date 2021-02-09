@@ -113,23 +113,15 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
         double[] semUpperOffsetMarginRelativePower;                                         /* (dB) */
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
-        double[] executionTimes; 
+
       public void Run()
       {
             try
             {
                 InitializeVariables();
                 InitializeInstr();
-                List<double> tempTimes = new List<double>();
-                for (int i = 0; i < 100; i++)
-                {
-                    ConfigureNR();
-                    tempTimes.Add(RetrieveResults());
-                }
-                executionTimes = tempTimes.ToArray();
-                var sum = executionTimes.Sum();
-                var average = sum / executionTimes.Length;
-                Console.WriteLine($"Execution Time: {average} ms");
+                ConfigureNR();
+                RetrieveResults();
                 PrintResults();
             }
                catch (Exception ex)
@@ -194,8 +186,6 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
 
       private void ConfigureNR()
       {
-            watch.Start();
-
             NR_offsets = instrSession.GetNRSignalConfiguration("signal::offsets");
             NR_carrier = instrSession.GetNRSignalConfiguration("signal::carrier");
         
@@ -268,11 +258,9 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
             NR_carrier.Initiate("", "");
             NR_carrier.WaitForMeasurementComplete("", timeout); 
             NR_offsets.Initiate("", "");
-            //NR_offsets.WaitForMeasurementComplete("", timeout);
-//            NR_carrier.Initiate("", "");
       }
 
-      private double RetrieveResults()
+      private void RetrieveResults()
       {
             NR_carrier.ModAcc.Results.GetCompositeRmsEvmMean("", out compositeRmsEvmMean);
             NR_carrier.ModAcc.Results.GetCompositePeakEvmMaximum("", out compositePeakEvmMaximum);
@@ -301,10 +289,7 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
                 out semPeakAbsoluteIntegratedPower, out semPeakFrequency, out semRelativeIntegratedPower);
 
              NR_offsets.Sem.Results.FetchMeasurementStatus("", timeout, out semMeasurementStatus);
-            watch.Stop();
-            var timeElapsed = watch.ElapsedMilliseconds;
-            watch.Reset();
-            return timeElapsed;
+
         }
 
       private void PrintResults()

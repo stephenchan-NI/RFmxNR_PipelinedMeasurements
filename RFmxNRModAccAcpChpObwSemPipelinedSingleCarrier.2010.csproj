@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemCompositeSingleCarrier</RootNamespace>
-    <AssemblyName>RFmxNRModAccAcpChpObwSemCompositeSingleCarrier.2010</AssemblyName>
+    <AssemblyName>RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier.2010</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -45,7 +45,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemCompositeSingleCarrier.Program</StartupObject>
+    <StartupObject>NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCarrier.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
