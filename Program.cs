@@ -7,7 +7,7 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
       {
          RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier rfmxNRModAccAcpChpObwSemPipelinedSingleCarrier =
             new RFmxNRModAccAcpChpObwSemPipelinedSingleCarrier();
-            rfmxNRModAccAcpChpObwSemPipelinedSingleCarrier.Run();
+         rfmxNRModAccAcpChpObwSemPipelinedSingleCarrier.Run();
       }
    }
 }

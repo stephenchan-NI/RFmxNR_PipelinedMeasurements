@@ -112,14 +112,26 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
         double[] semUpperOffsetMarginAbsolutePower;                                         /* (dBm) */
         double[] semUpperOffsetMarginRelativePower;                                         /* (dB) */
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+        string carrierResults;
+        string offsetResults;
 
-
+        double[] executionTimes; 
       public void Run()
       {
             try
             {
                 InitializeVariables();
                 InitializeInstr();
+                /* CODE FOR BENCHMARKING TIMES
+                List<double> tempTimes = new List<double>();
+                for (int i = 0; i <100; i++)
+                {
+                    ConfigureNR();
+                    tempTimes.Add(RetrieveResults());
+                }
+                executionTimes = tempTimes.ToArray();
+                Console.WriteLine(executionTimes.Average
+                */
                 ConfigureNR();
                 RetrieveResults();
                 PrintResults();
@@ -186,11 +198,13 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
 
       private void ConfigureNR()
       {
+            watch.Start();
+
             NR_offsets = instrSession.GetNRSignalConfiguration("signal::offsets");
             NR_carrier = instrSession.GetNRSignalConfiguration("signal::carrier");
         
             instrSession.ConfigureFrequencyReference("", frequencyReferenceSource, frequencyReferenceFrequency);
-//            instrSession.SetDownconverterFrequencyOffset("signal::offsets", 256e6);
+            instrSession.SetDownconverterFrequencyOffset("signal::carrier", 256e6);
 
             //Configure offset measurements
             NR_offsets.SetSelectedPorts("", selectedPorts);
@@ -255,41 +269,50 @@ namespace NationalInstruments.Examples.RFmxNRModAccAcpChpObwSemPiplinedSingleCar
                 }
             NR_offsets.Commit("");
             NR_carrier.Commit("");
-            NR_carrier.Initiate("", "");
-            NR_carrier.WaitForMeasurementComplete("", timeout); 
-            NR_offsets.Initiate("", "");
+            offsetResults = RFmxNRMX.BuildResultString("offsetResults");
+            carrierResults = RFmxNRMX.BuildResultString("carrierResults");
+            NR_carrier.Initiate("", "carrierResults");
+            instrSession.WaitForAcquisitionComplete(timeout); 
+            NR_offsets.Initiate("", "offsetResults");
+            //NR_offsets.WaitForMeasurementComplete("", timeout);
+//            NR_carrier.Initiate("", "");
       }
 
-      private void RetrieveResults()
+      private double RetrieveResults()
       {
-            NR_carrier.ModAcc.Results.GetCompositeRmsEvmMean("", out compositeRmsEvmMean);
-            NR_carrier.ModAcc.Results.GetCompositePeakEvmMaximum("", out compositePeakEvmMaximum);
-            NR_carrier.ModAcc.Results.GetComponentCarrierFrequencyErrorMean("", out componentCarrierFrequencyErrorMean);
-            NR_carrier.ModAcc.Results.GetComponentCarrierIQOriginOffsetMean("", out componentCarrierIQOriginOffsetMean);
+            NR_carrier.ModAcc.Results.GetCompositeRmsEvmMean(carrierResults, out compositeRmsEvmMean);
+            NR_carrier.ModAcc.Results.GetCompositePeakEvmMaximum(carrierResults, out compositePeakEvmMaximum);
+            NR_carrier.ModAcc.Results.GetComponentCarrierFrequencyErrorMean(carrierResults, out componentCarrierFrequencyErrorMean);
+            NR_carrier.ModAcc.Results.GetComponentCarrierIQOriginOffsetMean(carrierResults, out componentCarrierIQOriginOffsetMean);
 
-             NR_offsets.Acp.Results.FetchOffsetMeasurementArray("", timeout, ref acpLowerRelativePower,
+             NR_offsets.Acp.Results.FetchOffsetMeasurementArray(offsetResults, timeout, ref acpLowerRelativePower,
                 ref acpUpperRelativePower, ref acpLowerAbsolutePower, ref acpUpperAbsolutePower);
 
-             NR_offsets.Acp.Results.ComponentCarrier.FetchMeasurement("", timeout, out acpAbsolutePower, out acpRelativePower);
+             NR_offsets.Acp.Results.ComponentCarrier.FetchMeasurement(offsetResults, timeout, out acpAbsolutePower, out acpRelativePower);
 
-            NR_carrier.Chp.Results.ComponentCarrier.FetchMeasurement("", timeout, out chpAbsolutePower, out chpRelativePower);
+            NR_carrier.Chp.Results.ComponentCarrier.FetchMeasurement(carrierResults, timeout, out chpAbsolutePower, out chpRelativePower);
 
-            NR_carrier.Obw.Results.FetchMeasurement("", timeout, out obwOccupiedBandwidth, out obwAbsolutePower,
+            NR_carrier.Obw.Results.FetchMeasurement(carrierResults, timeout, out obwOccupiedBandwidth, out obwAbsolutePower,
                 out obwStartFrequency, out obwStopFrequency);
 
-             NR_offsets.Sem.Results.FetchLowerOffsetMarginArray("", timeout, ref semLowerOffsetMeasurementStatus,
+             NR_offsets.Sem.Results.FetchLowerOffsetMarginArray(offsetResults, timeout, ref semLowerOffsetMeasurementStatus,
                 ref semLowerOffsetMargin, ref semLowerOffsetMarginFrequency, ref semLowerOffsetMarginAbsolutePower,
                 ref semLowerOffsetMarginRelativePower);
 
-             NR_offsets.Sem.Results.FetchUpperOffsetMarginArray("", timeout, ref semUpperOffsetMeasurementStatus,
+             NR_offsets.Sem.Results.FetchUpperOffsetMarginArray(offsetResults, timeout, ref semUpperOffsetMeasurementStatus,
                 ref semUpperOffsetMargin, ref semUpperOffsetMarginFrequency, ref semUpperOffsetMarginAbsolutePower,
                 ref semUpperOffsetMarginRelativePower);
 
-             NR_offsets.Sem.Results.ComponentCarrier.FetchMeasurement("", timeout, out semAbsoluteIntegratedPower,
+             NR_offsets.Sem.Results.ComponentCarrier.FetchMeasurement(offsetResults, timeout, out semAbsoluteIntegratedPower,
                 out semPeakAbsoluteIntegratedPower, out semPeakFrequency, out semRelativeIntegratedPower);
 
-             NR_offsets.Sem.Results.FetchMeasurementStatus("", timeout, out semMeasurementStatus);
+             NR_offsets.Sem.Results.FetchMeasurementStatus(offsetResults, timeout, out semMeasurementStatus);
 
+
+            watch.Stop();
+            var timeElapsed = watch.ElapsedMilliseconds;
+            watch.Reset();
+            return timeElapsed;
         }
 
       private void PrintResults()
